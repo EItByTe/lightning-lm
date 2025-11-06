@@ -113,10 +113,18 @@ bool SlamSystem::Init(const std::string& yaml_path) {
                 Timer::Evaluate([&]() { ProcessLidar(cloud); }, "Proc Lidar", true);
             });
 
+        // savemap_service_ = node_->create_service<SaveMapService>(
+        //     "lightning/save_map", [this](const SaveMapService::Request::SharedPtr& req,
+        //                                  SaveMapService::Response::SharedPtr res) { SaveMap(req, res); });
+        // for galactic version
         savemap_service_ = node_->create_service<SaveMapService>(
-            "lightning/save_map", [this](const SaveMapService::Request::SharedPtr& req,
-                                         SaveMapService::Response::SharedPtr res) { SaveMap(req, res); });
-
+                    "lightning/save_map",
+                    [this](const std::shared_ptr<rmw_request_id_t> request_header,
+                        const std::shared_ptr<SaveMapService::Request> request,
+                        std::shared_ptr<SaveMapService::Response> response) {
+                        (void)request_header;  // 避免未使用警告
+                        this->SaveMap(request, response);
+                    });
         LOG(INFO) << "online slam node has been created.";
     }
 

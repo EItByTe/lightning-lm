@@ -71,6 +71,26 @@ POINT_CLOUD_REGISTER_POINT_STRUCT(ouster_ros::Point,
 )
 // clang-format on
 
+
+namespace helios_ros {
+struct EIGEN_ALIGN16 Point {
+    PCL_ADD_POINT4D
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+
+    float intensity;     // 强度值 (原始消息中为 float)
+    uint16_t ring;        // 激光线束编号 (原始消息中为 uint16)
+    double timestamp;     // 相对时间戳，单位：秒 (原始消息中为 float64)
+};
+}  // namespace helios_ros
+
+POINT_CLOUD_REGISTER_POINT_STRUCT(helios_ros::Point,
+                                  (float, x, x)
+                                      (float, y, y)
+                                      (float, z, z)
+                                      (float, intensity, intensity)
+                                      (std::uint16_t, ring, ring)
+                                      (double, timestamp, timestamp)
+)
 namespace lightning {
 
 /// 各类点云的缩写

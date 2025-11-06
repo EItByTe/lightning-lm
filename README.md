@@ -217,7 +217,7 @@ Ubuntu 20.04 应该也可行，未测试。
 ### 依赖
 
 - ros2 humble 及以上
-- Pangolin（用于可视化，见thirdparty）
+- Pangolin（用于可视化，见thirdparty）Pangolin安装时遇到了一些问题，参考一下<https://blog.csdn.net/weixin_60822173/article/details/146498163>
 - OpenCV
 - PCL
 - yaml-cpp
@@ -333,3 +333,9 @@ imu和雷达外参默认为零就好，我们对这个不敏感。
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=gaoxiang12/lightning-lm&type=date&legend=top-left)](https://www.star-history.com/#gaoxiang12/lightning-lm&type=date&legend=top-left)
+
+## 在振华数据集上测试
+
+```shell
+   ros2 run lightning run_slam_offline --input_bag /media/zpmc/yota/Dataset/Zhenhua/Augzuoye1_preprocess/rosbag2_2025_11_05-14_31_13_0.db3 --config /home/zpmc/Workspace/code/galactic_slam_ws/colcon_ws/src/lightning-lm/config/zhenhua_2lidar.yaml
+```
