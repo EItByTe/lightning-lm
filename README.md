@@ -1,6 +1,6 @@
-# Lightning-LM
+# Lightning-LM-CC-Fork
 
-Lightning-Speed Lidar Localization and Mapping123
+Lightning-Speed Lidar Localization and Mapping
 
 Lightning-LM is a complete laser mapping and localization module.
 
@@ -275,7 +275,7 @@ Ubuntu 20.04 应该也可行，未测试。
 ### 定位测试
 
 1. 实时定位
-    - 将地图路径写到yaml中的 system-map_path 下，默认是new_map（和建图默认一致)
+    - 将地图路径写到yaml中的 system-map_path 下，默认是new_map（和建图默认一致）
     - 将车放在建图起点处
     - 启动定位程序：
       ```ros2 run lightning run_loc_online --config ./config/default_nclt.yaml```
