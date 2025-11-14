@@ -56,12 +56,12 @@ int main(int argc, char** argv) {
                                   usleep(1000);
                                   return true;
                               })
-        .AddLivoxCloudHandle("/livox/lidar",
-                             [&loc](livox_ros_driver2::msg::CustomMsg::SharedPtr cloud) {
-                                 loc.ProcessLivoxLidarMsg(cloud);
-                                 usleep(1000);
-                                 return true;
-                             })
+        // .AddLivoxCloudHandle("/livox/lidar",
+        //                      [&loc](livox_ros_driver2::msg::CustomMsg::SharedPtr cloud) {
+        //                          loc.ProcessLivoxLidarMsg(cloud);
+        //                          usleep(1000);
+        //                          return true;
+        //                      })
         .Go();
 
     Timer::PrintAll();

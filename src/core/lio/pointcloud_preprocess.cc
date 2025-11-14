@@ -12,6 +12,19 @@ void PointCloudPreprocess::Set(LidarType lid_type, double bld, int pfilt_num) {
 }
 
 void PointCloudPreprocess::Process(const sensor_msgs::msg::PointCloud2 ::SharedPtr &msg, PointCloudType::Ptr &pcl_out) {
+
+    // // 打印lidar_type_
+    // {
+    //     std::string lidar_str;
+    //     switch (lidar_type_) {
+    //         case LidarType::OUST64: lidar_str = "OUST64"; break;
+    //         case LidarType::VELO32: lidar_str = "VELO32"; break;
+    //         case LidarType::HELIOS32: lidar_str = "HELIOS32"; break;
+    //         default: lidar_str = "UNKNOWN"; break;
+    //     }
+    //     LOG(INFO) << "lidar_type_: " << lidar_str << " (" << static_cast<int>(lidar_type_) << ")";
+    // }
+
     switch (lidar_type_) {
         case LidarType::OUST64:
             Oust64Handler(msg);
@@ -24,7 +37,6 @@ void PointCloudPreprocess::Process(const sensor_msgs::msg::PointCloud2 ::SharedP
         case LidarType::HELIOS32:
             HeliosHandler(msg);
             break;
-
         default:
             LOG(ERROR) << "Error LiDAR Type";
             break;

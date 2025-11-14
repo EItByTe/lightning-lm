@@ -30,7 +30,7 @@ class LocSystem {
 
     explicit LocSystem(Options options);
     ~LocSystem();
-
+options_
     /// 初始化，地图路径在yaml里配置
     bool Init(const std::string& yaml_path);
 

@@ -10,8 +10,10 @@
 
 namespace lightning {
 
+// 主要参数读入
 bool LaserMapping::Init(const std::string &config_yaml) {
     LOG(INFO) << "init laser mapping from " << config_yaml;
+    // 主要读取fasterlio相关参数
     if (!LoadParamsFromYAML(config_yaml)) {
         return false;
     }
@@ -21,8 +23,8 @@ bool LaserMapping::Init(const std::string &config_yaml) {
 
     // esekf init
     ESKF::Options eskf_options;
-    eskf_options.max_iterations_ = fasterlio::NUM_MAX_ITERATIONS;
-    eskf_options.epsi_ = 1e-3 * Eigen::Matrix<double, 23, 1>::Ones();
+    eskf_options.max_iterations_ = fasterlio::NUM_MAX_ITERATIONS; // 8次
+    eskf_options.epsi_ = 1e-3 * Eigen::Matrix<double, 23, 1>::Ones(); // 23维误差状态
     eskf_options.lidar_obs_func_ = [this](NavState &s, ESKF::CustomObservationModel &obs) { ObsModel(s, obs); };
     eskf_options.use_aa_ = use_aa_;
     kf_.Init(eskf_options);
@@ -65,7 +67,6 @@ bool LaserMapping::LoadParamsFromYAML(const std::string &yaml_file) {
 
         skip_lidar_num_ = yaml["fasterlio"]["skip_lidar_num"].as<int>();
         enable_skip_lidar_ = skip_lidar_num_ > 0;
-
     } catch (...) {
         LOG(ERROR) << "bad conversion";
         return false;

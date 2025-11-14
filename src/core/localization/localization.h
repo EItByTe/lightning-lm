@@ -24,6 +24,7 @@ class PGO;
  */
 class Localization {
    public:
+    // 一些参数设定
     struct Options {
         Options() {}
 
@@ -74,6 +75,10 @@ class Localization {
     void LidarOdomProcCloud(CloudPtr);
     void LidarLocProcCloud(CloudPtr);
 
+    // std::function可以用来
+    // 1. 编译时检查参数类型和返回类型
+    // 2. 统一接口
+    // 3. 可以把函数名作为空值去检查。
     using TFCallback = std::function<void(const geometry_msgs::msg::TransformStamped& odom)>;
     using LocStateCallback = std::function<void(const std_msgs::msg::Int32& state)>;
     using PointcloudBodyCallback = std::function<void(const sensor_msgs::msg::PointCloud2& pointcloud)>;

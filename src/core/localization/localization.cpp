@@ -25,7 +25,7 @@ bool Localization::Init(const std::string& yaml_path, const std::string& global_
 
     /// lidar odom前端
     LaserMapping::Options opt_lio;
-    opt_lio.is_in_slam_mode_ = false;
+    opt_lio.is_in_slam_mode_ = false; // 定位模式
 
     lio_ = std::make_shared<LaserMapping>(opt_lio);
     if (!lio_->Init(yaml_path)) {
@@ -116,7 +116,11 @@ bool Localization::Init(const std::string& yaml_path, const std::string& global_
     } else if (lidar_type == 3) {
         preprocess_->SetLidarType(LidarType::OUST64);
         LOG(INFO) << "Using OUST 64 Lidar";
-    } else {
+    } else if (lidar_type == 4) {
+        preprocess_->SetLidarType(LidarType::HELIOS32);
+        LOG(INFO) << "Using HELIOS 32 Lidar";
+    } 
+    else {
         LOG(WARNING) << "unknown lidar_type";
     }
 
@@ -223,6 +227,7 @@ void Localization::LidarLocProcCloud(CloudPtr scan_undist) {
 void Localization::ProcessIMUMsg(IMUPtr imu) {
     UL lock(global_mutex_);
 
+    // 初始化后才开始处理
     if (lidar_loc_ == nullptr || lio_ == nullptr || pgo_ == nullptr) {
         return;
     }
@@ -233,7 +238,7 @@ void Localization::ProcessIMUMsg(IMUPtr imu) {
     }
     last_imu_time_ = this_imu_time;
 
-    /// 里程计处理IMU
+    /// 里程计处理IMU (LaserMapping)
     lio_->ProcessIMU(imu);
 
     /// 这里需要 IMU predict，否则没法process DR了
@@ -260,7 +265,7 @@ void Localization::ProcessIMUMsg(IMUPtr imu) {
 
     lidar_loc_->ProcessDR(dr_state);
     pgo_->ProcessDR(dr_state);
-}
+} // 自动解锁
 
 // void Localization::ProcessOdomMsg(const nav_msgs::msg::Odometry::SharedPtr odom_msg) {
 //     UL lock(global_mutex_);
